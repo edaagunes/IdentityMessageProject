@@ -1,0 +1,29 @@
+﻿
+@{
+	ViewData["Title"] = "Inbox";
+	Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+}
+
+<div class="email-left-box">
+	@await Component.InvokeAsync("_LeftBoxInMessage")
+</div>
+<div class="email-right-box">
+	<div class="email-list m-t-15">
+		<div class="message">
+			<a href="email-read.html">
+				<div class="col-mail col-mail-1">
+					<div class="email-checkbox">
+						<input type="checkbox" id="chk2">
+						<label class="toggle" for="chk2"></label>
+					</div>
+					<span class="star-toggle ti-star"></span>
+				</div>
+				<div class="col-mail col-mail-2">
+					<div class="subject">Ingredia Nutrisha, A collection of textile samples lay spread out on the table - Samsa was a travelling salesman - and above it there hung a picture</div>
+					<div class="date">11:49 am</div>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
+
