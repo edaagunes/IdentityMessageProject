@@ -14,7 +14,10 @@ namespace IdentityMessageProject.EntityLayer.Concrete
 		public DateTime CreatedDate { get; set; }
 		public bool Status { get; set; }
 
-		public int AppUserId { get; set; }
-		public AppUser AppUser { get; set; }
+		public int? SenderId { get; set; }
+		public AppUser Sender { get; set; }
+
+		public int? ReceiverId { get; set; }
+		public AppUser Receiver { get; set; }
 	}
 }

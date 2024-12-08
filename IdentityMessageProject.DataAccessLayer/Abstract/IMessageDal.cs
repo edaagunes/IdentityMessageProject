@@ -9,5 +9,6 @@ namespace IdentityMessageProject.DataAccessLayer.Abstract
 {
 	public interface IMessageDal : IGenericDal<Message>
 	{
+		Message GetMessageWithAppUser(int id);
 	}
 }

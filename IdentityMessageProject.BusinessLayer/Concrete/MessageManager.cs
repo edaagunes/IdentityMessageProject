@@ -33,6 +33,11 @@ namespace IdentityMessageProject.BusinessLayer.Concrete
 			return _messageDal.GetById(id);
 		}
 
+		public Message TGetMessageWithAppUser(int id)
+		{
+			return _messageDal.GetMessageWithAppUser(id);
+		}
+
 		public void TInsert(Message entity)
 		{
 			_messageDal.Insert(entity);

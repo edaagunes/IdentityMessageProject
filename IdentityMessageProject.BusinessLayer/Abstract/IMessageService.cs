@@ -9,5 +9,6 @@ namespace IdentityMessageProject.BusinessLayer.Abstract
 {
 	public interface IMessageService : IGenericService<Message>
 	{
+		public Message TGetMessageWithAppUser(int id);
 	}
 }
