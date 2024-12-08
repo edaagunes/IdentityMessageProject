@@ -1,8 +1,93 @@
-﻿
+﻿@model UpdateProfileViewModel
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_DefaultLayout.cshtml";
 }
+<form method="post" enctype="multipart/form-data">
+<div class="container-fluid">
+	<div class="row">
+	
+			<div class="col-lg-4 col-xl-3">
+				<div class="card">
 
-<h1>Index</h1>
+					<div class="card-body">
+						<div class="media align-items-center mb-4">
+							<img class="mr-3" src="@Model.ImageUrl" width="80" height="80" alt="">
+							<div class="media-body">
+								<h3 class="mb-0">@Model.Name @Model.Surname</h3>
+								<p class="text-muted mb-0">@Model.Username</p>
+							</div>
+						</div>
 
+						<div class="row mb-5">
+							<div class="col">
+								<div class="card card-profile text-center">
+									<span class="mb-1 text-primary"><i class="icon-people"></i></span>
+									<h3 class="mb-0">2</h3>
+									<p class="text-muted">Gelen Mesaj</p>
+								</div>
+							</div>
+							<div class="col">
+								<div class="card card-profile text-center">
+									<span class="mb-1 text-warning"><i class="icon-user-follow"></i></span>
+									<h3 class="mb-0">2</h3>
+									<p class="text-muted">Giden Mesaj</p>
+								</div>
+							</div>
+							<div class="col-12 text-center">
+								<button class="btn btn-danger px-5">Yeni Mesaj Gönder</button>
+							</div>
+						</div>
+
+
+						<ul class="card-profile__info">
+							<li><strong class="text-dark mr-4">Email</strong> <span>@Model.Email</span></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-8 col-xl-9">
+				<div class="card">
+
+					<div class="card-body">
+						<h4>Profil Bilgilerini Düzenleme</h4>
+						<br />
+						<div class="form-group">
+							<label>Adınız</label>
+							<input type="text" asp-for="Name" class="form-control" required />
+						</div>
+						<div class="form-group">
+							<label>Soyadınız</label>
+							<input type="text" asp-for="Surname" class="form-control" required />
+						</div>
+						<div class="form-group">
+							<label>Email</label>
+							<input type="email" asp-for="Email" class="form-control" required />
+						</div>
+						<div class="form-group">
+							<label>Kullanıcı Adınız</label>
+							<input type="text" asp-for="Username" class="form-control" required />
+						</div>
+						<div class="form-group">
+							<label>Şifreniz</label>
+							<input type="text" asp-for="Password" class="form-control" required />
+						</div>
+						<div class="form-group">
+							<label for="file-upload" class="btn btn-outline-primary">
+								<i class="fa fa-camera"></i> Fotoğraf Seçiniz
+							</label>
+							<input id="file-upload" type="file" asp-for="Image" style="display: none;" />
+						</div>
+
+						<button class="btn btn-primary">Profili Güncelle</button>
+					</div>
+
+				</div>
+			</div>
+		
+	</div>
+
+</div>
+
+</form>
