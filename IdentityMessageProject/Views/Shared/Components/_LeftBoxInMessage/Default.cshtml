@@ -2,16 +2,25 @@
 
     <a href="email-compose.html" class="btn btn-primary btn-block">Yeni Mesaj</a>
 
-    <div class="mail-list mt-4">
+<div class="mail-list mt-4">
 
-        <a href="email-inbox.html" class="list-group-item border-0 text-primary p-r-0">
-            <i class="fa fa-inbox font-18 align-middle mr-2"></i> <b>Gelen Kutusu</b>
+    <a href="/Message/Inbox" class="list-group-item border-0 p-r-0 @((ViewBag.ActiveTab == "Inbox") ? "text-primary" : "")">
+        <i class="fa fa-inbox font-18 align-middle mr-2"></i>Gelen Kutusu
         <span class="badge badge-primary badge-sm float-right m-t-5">@ViewBag.messageCount</span>
-        </a>
-        <a href="#" class="list-group-item border-0 p-r-0"><i class="fa fa-paper-plane font-18 align-middle mr-2"></i>Giden Kutusu</a>
+    </a>
 
-        <a href="#" class="list-group-item border-0 p-r-0"><i class="mdi mdi-file-document-box font-18 align-middle mr-2"></i>Taslaklar</a>
+    <a href="/Message/Outbox" class="list-group-item border-0 p-r-0 @((ViewBag.ActiveTab == "Outbox") ? "text-primary" : "")">
+        <i class="fa fa-paper-plane font-18 align-middle mr-2"></i>Giden Kutusu
+        <span class="badge badge-secondary badge-sm float-right m-t-5">@ViewBag.messageSendCount</span>
+    </a>
 
-        <a href="#" class="list-group-item border-0 p-r-0"><i class="fa fa-trash font-18 align-middle mr-2"></i>Çöp Kutusu</a>
-    </div>
+    <a href="#" class="list-group-item border-0 p-r-0">
+        <i class="mdi mdi-file-document-box font-18 align-middle mr-2"></i>Taslaklar
+    </a>
+
+    <a href="#" class="list-group-item border-0 p-r-0">
+        <i class="fa fa-trash font-18 align-middle mr-2"></i>Çöp Kutusu
+    </a>
+</div>
+
 

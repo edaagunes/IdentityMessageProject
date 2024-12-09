@@ -1,7 +1,7 @@
 ﻿@model List<Message>
 @{
-	ViewData["Title"] = "Inbox";
-	Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    ViewData["Title"] = "OutBox";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
 }
 
 <div class="container-fluid">
@@ -16,23 +16,15 @@
 						<div class="email-list m-t-15">
 							@foreach (var item in Model)
 							{
-								<input type="hidden" asp-for="@item.ReceiverId"/>
+								<input type="hidden" asp-for="@item.SenderId" />
 								<div class="message">
 									<a href="/Message/MessageDetail/@item.MessageId">
 										<div class="col-mail col-mail-1">
-@* 											<div class="email-checkbox">
+											<div class="email-checkbox">
 												<input type="checkbox" id="chk2">
 												<label class="toggle" for="chk2"></label>
-											</div> *@
-											@if (item.IsRead)
-											{
-												<i class="fa fa-envelope-open text-success"></i> 
-											}
-											else
-											{
-												<i class="fa fa-envelope text-danger"></i> 
-											}
-											@* <span class="star-toggle ti-star"></span> *@
+											</div>
+											<span class="star-toggle ti-star"></span>
 										</div>
 										<div class="col-mail col-mail-2">
 											<div class="subject">@item.Title</div>
@@ -51,3 +43,5 @@
 		</div>
 	</div>
 </div>
+
+

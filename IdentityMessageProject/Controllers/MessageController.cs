@@ -21,6 +21,8 @@ namespace IdentityMessageProject.Controllers
 
 		public async Task<IActionResult> Inbox()
 		{
+			ViewBag.ActiveTab = "Inbox";
+
 			var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
 			var userId = _appUserService.TGetById(user.Id);
@@ -37,6 +39,19 @@ namespace IdentityMessageProject.Controllers
 			var message = _messageService.TGetMessageWithAppUser(id);
 
 			return View(message);
+		}
+
+		public async Task<IActionResult> OutBox()
+		{
+			ViewBag.ActiveTab = "Outbox";
+
+			var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+			var userId = _appUserService.TGetById(user.Id);
+
+			var values = _messageService.TGetAll().Where(x => x.SenderId == userId.Id).ToList();
+
+			return View(values);
 		}
 	}
 }
