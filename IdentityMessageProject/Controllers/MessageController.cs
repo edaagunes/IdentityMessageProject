@@ -36,6 +36,8 @@ namespace IdentityMessageProject.Controllers
 
 		public async Task<IActionResult> MessageDetail(int id)
 		{
+			_messageService.TChangeIsReadStatus(id);
+
 			var message = _messageService.TGetMessageWithAppUser(id);
 
 			return View(message);
@@ -52,6 +54,12 @@ namespace IdentityMessageProject.Controllers
 			var values = _messageService.TGetAll().Where(x => x.SenderId == userId.Id).ToList();
 
 			return View(values);
+		}
+
+		public IActionResult ChangeReadStatus(int id)
+		{
+			_messageService.TChangeIsReadStatus(id);
+			return RedirectToAction("Inbox");
 		}
 	}
 }

@@ -18,6 +18,11 @@ namespace IdentityMessageProject.BusinessLayer.Concrete
 			_messageDal = messageDal;
 		}
 
+		public void TChangeIsReadStatus(int id)
+		{
+			_messageDal.ChangeIsReadStatus(id);
+		}
+
 		public void TDelete(int id)
 		{
 			_messageDal.Delete(id);

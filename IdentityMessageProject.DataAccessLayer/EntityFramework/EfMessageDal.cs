@@ -17,6 +17,20 @@ namespace IdentityMessageProject.DataAccessLayer.EntityFramework
 		{
 		}
 
+		public void ChangeIsReadStatus(int id)
+		{
+			using (var context = new MessageContext())
+			{
+				var values = context.Messages.FirstOrDefault(x => x.MessageId == id);
+				if (values != null && values.IsRead == false)
+				{
+					values.IsRead = true;
+					context.Messages.Update(values);
+					context.SaveChanges();
+				}
+			}
+		}
+
 		public Message GetMessageWithAppUser(int id)
 		{
 			using (var context = new MessageContext())
