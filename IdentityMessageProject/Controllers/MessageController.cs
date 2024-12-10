@@ -1,8 +1,11 @@
-﻿using IdentityMessageProject.BusinessLayer.Abstract;
+﻿using FluentValidation.Results;
+using IdentityMessageProject.BusinessLayer.Abstract;
+using IdentityMessageProject.BusinessLayer.ValidationRules;
 using IdentityMessageProject.EntityLayer.Concrete;
 using IdentityMessageProject.Models.Message;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace IdentityMessageProject.Controllers
 {
@@ -61,5 +64,61 @@ namespace IdentityMessageProject.Controllers
 			_messageService.TChangeIsReadStatus(id);
 			return RedirectToAction("Inbox");
 		}
+
+		[HttpGet]
+		public IActionResult NewMessage()
+		{
+			var userList = _appUserService.TGetAll();
+
+			ViewBag.users=userList.Select(x=> new SelectListItem
+			{
+				Text =x.Name + " " + x.Surname,
+				Value = x.Id.ToString()
+			}).ToList();
+
+			var firstUser=userList.FirstOrDefault();
+			ViewBag.firstUser=firstUser;
+
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> NewMessage(Message message)
+		{
+			ModelState.Clear();
+
+			var userList = _appUserService.TGetAll();
+			ViewBag.users = userList.Select(x => new SelectListItem
+			{
+				Text = x.Name + " " + x.Surname,
+				Value = x.Id.ToString()
+			}).ToList();
+
+			var user = await _userManager.FindByNameAsync(User.Identity.Name);
+			var userId = _appUserService.TGetById(user.Id);
+
+			message.SenderId = userId.Id;
+
+			message.CreatedDate = DateTime.Now;
+
+			NewMessageValidator validationRules = new NewMessageValidator();
+			ValidationResult result=validationRules.Validate(message);
+
+			if (result.IsValid)
+			{
+				_messageService.TInsert(message);
+				return RedirectToAction("Inbox");
+			}
+
+			else
+			{
+				foreach (var item in result.Errors)
+				{
+					ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+				}
+			}
+			return View();
+		}
+	
 	}
 }

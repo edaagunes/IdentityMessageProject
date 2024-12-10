@@ -28,8 +28,4 @@
     <ProjectReference Include="..\IdentityMessageProject.EntityLayer\IdentityMessageProject.EntityLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ValidationRules\" />
-  </ItemGroup>
-
 </Project>
