@@ -1,4 +1,5 @@
-﻿using IdentityMessageProject.EntityLayer.Concrete;
+﻿using IdentityMessageProject.BusinessLayer.Abstract;
+using IdentityMessageProject.EntityLayer.Concrete;
 using IdentityMessageProject.Models.Profile;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace IdentityMessageProject.Controllers
 		public async Task<IActionResult> Index()
 		{
 			var user = await _userManager.FindByNameAsync(User.Identity.Name);
-
+			
 			UpdateProfileViewModel viewModel = new UpdateProfileViewModel();
 			viewModel.Name = user.Name;
 			viewModel.Email = user.Email;

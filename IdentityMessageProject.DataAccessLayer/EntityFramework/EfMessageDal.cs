@@ -38,5 +38,20 @@ namespace IdentityMessageProject.DataAccessLayer.EntityFramework
 				return context.Messages.Include(x => x.Sender).FirstOrDefault(x => x.MessageId == id);
 			}
 		}
+
+		public void ChangeIsDeleteStatus(int id)
+		{
+			using (var context = new MessageContext())
+			{
+				var values = context.Messages.FirstOrDefault(x => x.MessageId == id);
+				if (values != null && values.IsDelete == false)
+				{
+					values.IsDelete = true;
+					context.Messages.Update(values);
+					context.SaveChanges();
+				}
+			}
+		}
+
 	}
 }

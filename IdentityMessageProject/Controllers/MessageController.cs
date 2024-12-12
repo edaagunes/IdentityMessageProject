@@ -30,9 +30,8 @@ namespace IdentityMessageProject.Controllers
 
 			var userId = _appUserService.TGetById(user.Id);
 
-			var values = _messageService.TGetAll().Where(x => x.ReceiverId == userId.Id).ToList();
+			var values = _messageService.TGetAll().Where(x => x.ReceiverId == userId.Id && x.IsDelete == false).ToList();
 
-			ViewBag.messageCount=values.Count;
 
 			return View(values);
 		}
@@ -54,7 +53,7 @@ namespace IdentityMessageProject.Controllers
 
 			var userId = _appUserService.TGetById(user.Id);
 
-			var values = _messageService.TGetAll().Where(x => x.SenderId == userId.Id).ToList();
+			var values = _messageService.TGetAll().Where(x => x.SenderId == userId.Id && x.IsDelete == false).ToList();
 
 			return View(values);
 		}
@@ -70,14 +69,14 @@ namespace IdentityMessageProject.Controllers
 		{
 			var userList = _appUserService.TGetAll();
 
-			ViewBag.users=userList.Select(x=> new SelectListItem
+			ViewBag.users = userList.Select(x => new SelectListItem
 			{
-				Text =x.Name + " " + x.Surname,
+				Text = x.Name + " " + x.Surname,
 				Value = x.Id.ToString()
 			}).ToList();
 
-			var firstUser=userList.FirstOrDefault();
-			ViewBag.firstUser=firstUser;
+			var firstUser = userList.FirstOrDefault();
+			ViewBag.firstUser = firstUser;
 
 			return View();
 		}
@@ -102,7 +101,7 @@ namespace IdentityMessageProject.Controllers
 			message.CreatedDate = DateTime.Now;
 
 			NewMessageValidator validationRules = new NewMessageValidator();
-			ValidationResult result=validationRules.Validate(message);
+			ValidationResult result = validationRules.Validate(message);
 
 			if (result.IsValid)
 			{
@@ -119,6 +118,24 @@ namespace IdentityMessageProject.Controllers
 			}
 			return View();
 		}
-	
+
+		public IActionResult IsDeleteMessage(int id)
+		{
+			_messageService.TChangeIsDeleteStatus(id);
+			return RedirectToAction("DeleteMessages");
+		}
+
+		public async Task<IActionResult> DeleteMessages()
+		{
+			ViewBag.ActiveTab = "Trash";
+
+			var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+			var userId = _appUserService.TGetById(user.Id);
+
+			var values = _messageService.TGetAll().Where(x => (x.SenderId == userId.Id || x.ReceiverId==userId.Id) && x.IsDelete == true).ToList();
+
+			return View(values);
+		}
 	}
 }

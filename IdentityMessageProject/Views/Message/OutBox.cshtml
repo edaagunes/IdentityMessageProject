@@ -20,16 +20,15 @@
 								<div class="message">
 									<a href="/Message/MessageDetail/@item.MessageId">
 										<div class="col-mail col-mail-1">
-											<div class="email-checkbox">
-												<input type="checkbox" id="chk2">
-												<label class="toggle" for="chk2"></label>
-											</div>
 											<span class="star-toggle ti-star"></span>
 										</div>
 										<div class="col-mail col-mail-2">
-											<div class="subject">@item.Title</div>
-											<div class="date">@item.CreatedDate.ToString("HH:mm  ddd")</div>
+											<div class="subject">@item.Title.Substring(0,5)...</div>
+										</div>
 
+										<div class="col-mail col-mail-2" style="margin-left:150px">
+											<div class="subject">@item.Content.Substring(0,10)...</div>
+											<div class="date">@item.CreatedDate.ToString("HH:mm  ddd")</div>
 										</div>
 									</a>
 								</div>

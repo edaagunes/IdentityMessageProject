@@ -18,8 +18,9 @@
         <i class="mdi mdi-file-document-box font-18 align-middle mr-2"></i>Taslaklar
     </a>
 
-    <a href="#" class="list-group-item border-0 p-r-0">
+    <a href="/Message/DeleteMessages" class="list-group-item border-0 p-r-0 @((ViewBag.ActiveTab == "Trash") ? "text-primary" : "")">
         <i class="fa fa-trash font-18 align-middle mr-2"></i>Çöp Kutusu
+        <span class="badge badge-danger badge-sm float-right m-t-5">@ViewBag.deleteMessageCount</span>
     </a>
 </div>
 
