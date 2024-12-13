@@ -12,5 +12,6 @@ namespace IdentityMessageProject.BusinessLayer.Abstract
 		public Message TGetMessageWithAppUser(int id);
 		void TChangeIsReadStatus(int id);
 		void TChangeIsDeleteStatus(int id);
+		void TChangeIsDraftStatus(int id);
 	}
 }

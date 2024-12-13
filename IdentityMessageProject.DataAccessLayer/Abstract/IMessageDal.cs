@@ -11,6 +11,7 @@ namespace IdentityMessageProject.DataAccessLayer.Abstract
 	{
 		Message GetMessageWithAppUser(int id);
 		void ChangeIsReadStatus(int id);
-		 void ChangeIsDeleteStatus(int id);
+		void ChangeIsDeleteStatus(int id);
+		void ChangeIsDraftStatus(int id);
 	}
 }

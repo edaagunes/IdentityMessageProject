@@ -23,6 +23,11 @@ namespace IdentityMessageProject.BusinessLayer.Concrete
 			_messageDal.ChangeIsDeleteStatus(id);
 		}
 
+		public void TChangeIsDraftStatus(int id)
+		{
+			_messageDal.ChangeIsDraftStatus(id);
+		}
+
 		public void TChangeIsReadStatus(int id)
 		{
 			_messageDal.ChangeIsReadStatus(id);

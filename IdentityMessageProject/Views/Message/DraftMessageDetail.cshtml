@@ -1,7 +1,7 @@
 ﻿@model Message
 @{
-	ViewData["Title"] = "NewMessage";
-	Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    ViewData["Title"] = "DraftMessageDetail";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
 }
 
 <div class="container-fluid">
@@ -19,6 +19,8 @@
 							<div class="compose-content mt-5">
 
 								<input type="hidden" asp-for="SenderId" />
+								<input type="hidden" asp-for="MessageId" />
+
 								<div class="form-group">
 									@Html.DropDownList("ReceiverId", ViewBag.users as List<SelectListItem>, "Kime", new { @class = "form-control" })
 									<span class="text-danger" asp-validation-for="ReceiverId"></span>
@@ -35,8 +37,9 @@
 							</div>
 
 							<div class="text-right m-t-15">
-								<button class="btn btn-dark m-b-30 m-t-15 f-s-14 p-l-20 p-r-20" type="submit">
-									<i class="fa fa-folder m-r-5 f-s-12"></i> Taslaklara Kaydet</button>
+								<button class="btn btn-dark m-b-30 m-t-15 f-s-14 p-l-20 p-r-20" type="submit" formaction="/Message/SaveDraft/@Model.MessageId">
+									<i class="fa fa-folder m-r-5 f-s-12"></i> Taslaklara Kaydet
+								</button>
 
 								<button class="btn btn-primary m-b-30 m-t-15 f-s-14 p-l-20 p-r-20 m-r-10" type="submit" formaction="/Message/NewMessage"><i class="fa fa-paper-plane m-r-5"></i> Gönder</button>
 
@@ -48,5 +51,7 @@
 		</div>
 	</div>
 </div>
+
+
 
 

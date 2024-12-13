@@ -14,7 +14,7 @@
         <span class="badge badge-secondary badge-sm float-right m-t-5">@ViewBag.messageSendCount</span>
     </a>
 
-    <a href="#" class="list-group-item border-0 p-r-0">
+    <a href="/Message/DraftMessageList" class="list-group-item border-0 p-r-0  @((ViewBag.ActiveTab == "Draft") ? "text-primary" : "")">
         <i class="mdi mdi-file-document-box font-18 align-middle mr-2"></i>Taslaklar
     </a>
 

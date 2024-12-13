@@ -65,7 +65,7 @@ namespace IdentityMessageProject.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult NewMessage()
+		public IActionResult NewMessage(int? id)
 		{
 			var userList = _appUserService.TGetAll();
 
@@ -75,14 +75,19 @@ namespace IdentityMessageProject.Controllers
 				Value = x.Id.ToString()
 			}).ToList();
 
-			var firstUser = userList.FirstOrDefault();
-			ViewBag.firstUser = firstUser;
+
+			if (id.HasValue)
+			{
+				var existingMessage = _messageService.TGetById(id.Value);
+				return View(existingMessage); // Mevcut mesaj detaylarını gönder
+			}
+
 
 			return View();
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> NewMessage(Message message)
+		public async Task<IActionResult> NewMessage(Message message, string action)
 		{
 			ModelState.Clear();
 
@@ -100,23 +105,69 @@ namespace IdentityMessageProject.Controllers
 
 			message.CreatedDate = DateTime.Now;
 
-			NewMessageValidator validationRules = new NewMessageValidator();
-			ValidationResult result = validationRules.Validate(message);
-
-			if (result.IsValid)
+			// Taslak Mesaj
+			if (action == "SaveDraft")
 			{
-				_messageService.TInsert(message);
-				return RedirectToAction("Inbox");
+				if (message.MessageId == 0)
+				{
+					message.IsDraft = true;
+					_messageService.TInsert(message);
+				}
+				else
+				{
+					var existingMessage = _messageService.TGetById(message.MessageId);
+
+					if (existingMessage != null)
+					{
+						existingMessage.Title = message.Title;
+						existingMessage.Content = message.Content;
+						existingMessage.ReceiverId = message.ReceiverId;
+						existingMessage.IsDraft = true;
+						_messageService.TUpdate(existingMessage);
+					}
+
+				}
+
+				return RedirectToAction("DraftMessageList");
 			}
 
-			else
+			else if (action == "NewMessage")
 			{
-				foreach (var item in result.Errors)
+				NewMessageValidator validationRules = new NewMessageValidator();
+				ValidationResult result = validationRules.Validate(message);
+
+				if (result.IsValid)
 				{
-					ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+					if (message.MessageId == 0)
+					{
+						// Yeni mesaj gönder
+						message.IsDraft = false;
+						_messageService.TInsert(message);
+					}
+					else
+					{
+						// Mevcut taslağı gönder
+						var existingMessage = _messageService.TGetById(message.MessageId);
+						existingMessage.Title = message.Title;
+						existingMessage.Content = message.Content;
+						existingMessage.ReceiverId = message.ReceiverId;
+						existingMessage.IsDraft = false;
+						existingMessage.CreatedDate = DateTime.Now;
+						_messageService.TUpdate(existingMessage);
+					}
+
+					return RedirectToAction("Inbox");
+				}
+				else
+				{
+					foreach (var item in result.Errors)
+					{
+						ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+					}
 				}
 			}
-			return View();
+
+			return View(message);
 		}
 
 		public IActionResult IsDeleteMessage(int id)
@@ -133,9 +184,66 @@ namespace IdentityMessageProject.Controllers
 
 			var userId = _appUserService.TGetById(user.Id);
 
-			var values = _messageService.TGetAll().Where(x => (x.SenderId == userId.Id || x.ReceiverId==userId.Id) && x.IsDelete == true).ToList();
+			var values = _messageService.TGetAll().Where(x => (x.SenderId == userId.Id || x.ReceiverId == userId.Id) && x.IsDelete == true).ToList();
 
 			return View(values);
+		}
+
+		public async Task<IActionResult> SaveDraft(Message message)
+		{
+			if (message.MessageId > 0)
+			{
+				// Mevcut taslağı güncelle
+				var existingMessage = _messageService.TGetById(message.MessageId);
+
+				existingMessage.Title = message.Title;
+				existingMessage.Content = message.Content;
+				existingMessage.ReceiverId = message.ReceiverId;
+				existingMessage.IsDraft = true;
+				_messageService.TUpdate(existingMessage);
+
+			}
+			else
+			{
+				// Yeni taslak ekle
+				var user = await _userManager.FindByNameAsync(User.Identity.Name);
+				var userId = _appUserService.TGetById(user.Id);
+
+				message.SenderId = userId.Id;
+				message.IsDraft = true;
+				message.CreatedDate = DateTime.Now;
+				_messageService.TInsert(message);
+			}
+
+			return RedirectToAction("DraftMessageList");
+		}
+
+		public async Task<IActionResult> DraftMessageList()
+		{
+			ViewBag.ActiveTab = "Draft";
+
+			var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+			var userId = _appUserService.TGetById(user.Id);
+
+			var values = _messageService.TGetAll().Where(x => (x.SenderId == userId.Id || x.ReceiverId == userId.Id) && x.IsDraft == true).ToList();
+
+			return View(values);
+		}
+
+		public async Task<IActionResult> DraftMessageDetail(int id)
+		{
+			var message = _messageService.TGetMessageWithAppUser(id);
+
+			var userList = _appUserService.TGetAll();
+			ViewBag.users = userList.Select(x => new SelectListItem
+			{
+				Text = x.Name + " " + x.Surname,
+				Value = x.Id.ToString(),
+				Selected = x.Id == message.ReceiverId
+			}).ToList();
+
+			return View(message);
 		}
 	}
 }

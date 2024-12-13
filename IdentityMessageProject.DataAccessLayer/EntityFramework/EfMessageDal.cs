@@ -53,5 +53,19 @@ namespace IdentityMessageProject.DataAccessLayer.EntityFramework
 			}
 		}
 
+		public void ChangeIsDraftStatus(int id)
+		{
+			using (var context = new MessageContext())
+			{
+				var message = context.Messages.FirstOrDefault(x => x.MessageId == id);
+				if (message != null)
+				{
+					message.IsDraft = true;
+					context.Messages.Update(message);
+					context.SaveChanges();
+				}
+			}
+		}
+
 	}
 }
