@@ -1,0 +1,117 @@
+﻿@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-3">
+			<div class="card card-widget">
+				<div class="card-body gradient-3">
+					<div class="media">
+						<span class="card-widget__icon"><i class="icon-home"></i></span>
+						<div class="media-body">
+							<h2 class="card-widget__title">@ViewBag.userCount</h2>
+							<h5 class="card-widget__subtitle">Toplam Kullanıcı</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-3">
+			<div class="card card-widget">
+				<div class="card-body gradient-4">
+					<div class="media">
+						<span class="card-widget__icon"><i class="icon-tag"></i></span>
+						<div class="media-body">
+							<h2 class="card-widget__title">@ViewBag.userMessageCount</h2>
+							<h5 class="card-widget__subtitle">Gelen Mesaj Sayınız</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-3">
+			<div class="card card-widget">
+				<div class="card-body gradient-4">
+					<div class="media">
+						<span class="card-widget__icon"><i class="icon-emotsmile"></i></span>
+						<div class="media-body">
+							<h2 class="card-widget__title">@ViewBag.userSendMessageCount</h2>
+							<h5 class="card-widget__subtitle">Giden Mesaj Sayınız</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-3">
+			<div class="card card-widget">
+				<div class="card-body gradient-9">
+					<div class="media">
+						<span class="card-widget__icon"><i class="icon-ghost"></i></span>
+						<div class="media-body">
+							<h2 class="card-widget__title">@ViewBag.userDraftMessageCount</h2>
+							<h5 class="card-widget__subtitle">Taslak Mesajlarınız</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-4">
+			<div class="card">
+				<div class="card-body" style="height: 310px">
+					<div class="text-center">
+						<span class="display-5"><i class="icon-earphones gradient-3-text"></i></span>
+						<h2 class="mt-3">Birds - Imagine Dragons</h2>
+						<br />
+						<p>Günün Şarkısı</p>
+						<br />
+						<a href="javascript:void()" class="btn gradient-3 btn-lg border-0 btn-rounded px-5">
+							Dinleyin
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-4">
+			<div class="card" style="height: 310px">
+				<div class="card-body">
+					<div class="text-center">
+						<span class="display-5"><i class="icon-diamond gradient-4-text"></i></span>
+						<h2 class="mt-3">Öneri</h2>
+						<br />
+						<p class="text-muted">Önerilerinizi, fikirlerinizi merak ediyoruz.</p>
+						<br />
+						<a class="btn gradient-4 btn-lg border-0 btn-rounded px-5">
+							Bize
+							Ulaşın
+						</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-4">
+			<div class="card">
+				<div class="card-body">
+					<div class="text-center">
+						<img alt="" class="rounded-circle mt-4" src="@ViewBag.senderImage" style="width:100px;height:100px">
+						<h4 class="card-widget__title text-dark mt-3">@ViewBag.senderName</h4>
+						<p class="text-muted">@ViewBag.senderEmail</p>
+						<a class="btn gradient-4 btn-lg border-0 btn-rounded px-5" href="/Message/NewMessage">Mesajına Cevap Ver</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+

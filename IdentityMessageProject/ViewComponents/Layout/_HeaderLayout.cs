@@ -21,12 +21,13 @@ namespace IdentityMessageProject.ViewComponents.Layout
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
 			var user = await _userManager.FindByNameAsync(User.Identity.Name);
-			var userId = user.Id;
+			var userId = _appUserService.TGetById(user.Id);
 
-			user=_appUserService.TGetById(userId);
 
 			ViewBag.userImage = user.ImageUrl;
-			ViewBag.messages = user.ReceivedMessages.Count();
+			var values = _messageService.TGetAll().Where(x => x.ReceiverId == userId.Id && x.IsDelete == false).ToList();
+
+			ViewBag.messages = values.Count();
 
 			return View();
 		}
