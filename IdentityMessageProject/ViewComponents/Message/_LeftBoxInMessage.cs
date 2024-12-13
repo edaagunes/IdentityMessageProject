@@ -27,12 +27,15 @@ namespace IdentityMessageProject.ViewComponents.Message
 			var values = _messageService.TGetAll().Where(x => x.ReceiverId == userId.Id && x.IsDelete==false).ToList();
 			var values2 = _messageService.TGetAll().Where(x => x.SenderId == userId.Id && x.IsDelete == false).ToList();
 			var values3 = _messageService.TGetAll().Where(x => (x.SenderId == userId.Id || x.ReceiverId == userId.Id) && x.IsDelete == true).ToList();
+			var values4 = _messageService.TGetAll().Where(x => (x.SenderId == userId.Id || x.ReceiverId == userId.Id) && x.IsDraft == true).ToList();
 
 			ViewBag.messageCount=values.Count();
 
 			ViewBag.messageSendCount=values2.Count();
 
 			ViewBag.deleteMessageCount=values3.Count();
+
+			ViewBag.draftCount=values4.Count();
 
 			return View();
 		}

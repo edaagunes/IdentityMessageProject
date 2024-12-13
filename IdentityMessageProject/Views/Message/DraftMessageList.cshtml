@@ -17,6 +17,20 @@
 							@foreach (var item in Model)
 							{
 								<input type="hidden" asp-for="@item.ReceiverId" />
+
+								var timeDifference = DateTime.Now - item.CreatedDate;
+								string displayTime;
+
+								if (timeDifference.TotalDays < 1)
+								{
+									displayTime = item.CreatedDate.ToString("hh:mm tt");
+								}
+
+								else
+								{
+									displayTime = $"{(int)timeDifference.TotalDays} gün önce";
+								}
+
 								<div class="message">
 
 									<div class="col-mail col-mail-2 text-truncate">
@@ -30,7 +44,7 @@
 										<div class="subject">
 											<a href="/Message/DraftMessageDetail/@item.MessageId">@item.Content.Substring(0, 10)...</a>
 										</div>
-										<div class="date">@item.CreatedDate.ToString("HH:mm  ddd")</div>
+										<div class="date">@displayTime</div>
 
 									</div>
 								</div>

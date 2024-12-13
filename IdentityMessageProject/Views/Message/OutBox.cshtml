@@ -17,18 +17,32 @@
 							@foreach (var item in Model)
 							{
 								<input type="hidden" asp-for="@item.SenderId" />
+
+								var timeDifference = DateTime.Now - item.CreatedDate;
+								string displayTime;
+
+								if (timeDifference.TotalDays < 1)
+								{
+									displayTime = item.CreatedDate.ToString("hh:mm tt");
+								}
+
+								else
+								{
+									displayTime = $"{(int)timeDifference.TotalDays} gün önce";
+								}
+
 								<div class="message">
 									<a href="/Message/MessageDetail/@item.MessageId">
 										<div class="col-mail col-mail-1">
 											<span class="star-toggle ti-star"></span>
 										</div>
-										<div class="col-mail col-mail-2">
-											<div class="subject">@item.Title.Substring(0,5)...</div>
+										<div class="col-mail col-mail-2 text-truncate">
+											<div class="subject text-primary">@item.Title.Substring(0, 5)...</div>
 										</div>
 
-										<div class="col-mail col-mail-2" style="margin-left:150px">
+										<div class="col-mail col-mail-2 text-truncate" style="margin-left:150px">
 											<div class="subject">@item.Content.Substring(0,10)...</div>
-											<div class="date">@item.CreatedDate.ToString("HH:mm  ddd")</div>
+											<div class="date">@displayTime</div>
 										</div>
 									</a>
 								</div>
